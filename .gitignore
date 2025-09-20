@@ -1,8 +1,32 @@
-# .NET
+# .NET Build Outputs
 bin/
 obj/
-*.user
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+# .NET Core
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# NuGet
+*.nupkg
+*.snupkg
+.nuget/
+**/packages/*
+!**/packages/build/
+**/packages/*.nupkg
+**/packages/*.snupkg
+project.nuget.cache
+*.nuget.props
+*.nuget.targets
+
+# User-specific files
+*.rsuser
 *.suo
+*.user
 *.userosscache
 *.sln.docstates
 
@@ -17,3 +41,14 @@ obj/
 
 # Others
 .env
+
+# Test Results
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+*.VisualState.xml
+TestResult.xml
+nunit-*.xml
+
+# Coverage
+*.coverage
+*.coveragexml
