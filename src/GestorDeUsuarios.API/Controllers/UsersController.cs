@@ -29,7 +29,7 @@ namespace GestorDeUsuarios.API.Controllers
         {
             if (createUsuarioRequest == null)
                 return BadRequest("Se requiere el cuerpo de la solicitud");
-
+                
             var resultado = await _createUserUseCase.ExecuteAsync(createUsuarioRequest);
             return StatusCode(201, resultado);
         }

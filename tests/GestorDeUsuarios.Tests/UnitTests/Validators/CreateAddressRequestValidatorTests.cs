@@ -144,16 +144,15 @@ public class CreateAddressRequestValidatorTests
         // Act & Assert: Validar y verificar error de formato
         var result = _validator.TestValidate(request);
         result.ShouldHaveValidationErrorFor(x => x.Number)
-            .WithErrorMessage("El número tiene un formato inválido (ej: 123, 123A, 123-125)");
+            .WithErrorMessage("El número debe ser un formato válido (ej: 123");
     }
 
     // Test - Números válidos con diferentes formatos deben pasar validación
     [Theory]
     [InlineData("1500")]
-    [InlineData("150A")]
-    [InlineData("150-2")]
-    [InlineData("15/2")]
-    [InlineData("15 A")]
+    [InlineData("152")]
+    [InlineData("15")]
+    [InlineData("1")]
     [InlineData("123")]
     [InlineData("12345")] // Exactamente 5 caracteres
     public void Validate_WithValidNumberFormats_ShouldNotHaveError(string validNumber)
@@ -302,7 +301,7 @@ public class CreateAddressRequestValidatorTests
     public void Validate_WithMultipleErrors_ShouldReportAllErrors()
     {
         // Arrange: Crear request con múltiples campos inválidos
-        var request = new CreateAddressRequest("", "123456", "", ""); // Calle vacía, número muy largo, provincia y ciudad vacías
+        var request = new CreateAddressRequest("", "12345678901", "", ""); // Calle vacía, número muy largo, provincia y ciudad vacías
 
         // Act: Validar el request
         var result = _validator.TestValidate(request);

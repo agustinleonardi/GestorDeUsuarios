@@ -13,8 +13,8 @@ public class CreateAddressRequestValidator : AbstractValidator<CreateAddressRequ
 
         RuleFor(x => x.Number)
             .NotEmpty().WithMessage("El número es requerido")
-            .MaximumLength(10).WithMessage("El número no puede tener más de 10 caracteres")
-            .Matches(@"^[0-9]+([a-zA-Z]|[\-\/][0-9]+)?$").WithMessage("El número debe ser un formato válido (ej: 123, 123A, 123-125, 123/45)");
+            .MaximumLength(5).WithMessage("El número no puede tener más de 5 caracteres")
+            .Matches(@"^[0-9]+$").WithMessage("El número debe ser un formato válido (ej: 123");
 
         RuleFor(x => x.Province)
             .NotEmpty().WithMessage("La provincia es requerida")

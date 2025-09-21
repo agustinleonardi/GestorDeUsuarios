@@ -55,15 +55,14 @@ public static class TestDataBuilder
     }
 
     /// <summary>
-    /// Crea un request válido para actualizar usuario CON dirección existente (tiene ID)
+    /// Crea un request válido para actualizar usuario CON dirección existente
     /// Útil para tests de actualización que modifican una dirección que ya existe
     /// </summary>
     public static UpdateUserRequest CreateValidUpdateUserRequestWithAddressId(
-        int addressId,
         string name = "Juan Carlos Pérez",
         string email = "juan.carlos@example.com")
     {
-        var addressRequest = new UpdateAddressRequest("Av. Santa Fe", "5678", "Buenos Aires", "Palermo", addressId);
+        var addressRequest = new UpdateAddressRequest("Av. Santa Fe", "5678", "Buenos Aires", "Palermo");
         return new UpdateUserRequest(name, email, addressRequest);
     }
 
