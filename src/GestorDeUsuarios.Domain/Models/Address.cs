@@ -6,7 +6,7 @@ public class Address
 {
     public int Id { get; private set; }
     public int UserId { get; private set; }
-    public string Street { get; set; } = string.Empty;
+    public string Street { get; private set; } = string.Empty;
     public string Number { get; private set; } = string.Empty;
     public string Province { get; private set; } = string.Empty;
     public string City { get; private set; } = string.Empty;
@@ -35,7 +35,7 @@ public class Address
         CreationDate = creationDate;
     }
 
-    public void UpdateCalle(string street)
+    public void UpdateStreet(string street)
     {
         if (string.IsNullOrWhiteSpace(street))
             throw new InvalidAddressDataException(nameof(street), "La calle no puede estar vacia");
@@ -43,7 +43,7 @@ public class Address
         Street = street;
     }
 
-    public void UpdateNumero(string number)
+    public void UpdateNumber(string number)
     {
         if (string.IsNullOrWhiteSpace(number))
             throw new InvalidAddressDataException(nameof(number), "El numero de la calle no puede estar vacio");
@@ -51,7 +51,7 @@ public class Address
         Number = number;
     }
 
-    public void UpdateProvincia(string province)
+    public void UpdateProvince(string province)
     {
         if (string.IsNullOrWhiteSpace(province))
             throw new InvalidAddressDataException(nameof(province), "La provincia no puede estar vacia");
@@ -59,7 +59,7 @@ public class Address
         Province = province;
     }
 
-    public void UpdateCiudad(string city)
+    public void UpdateCity(string city)
     {
         if (string.IsNullOrWhiteSpace(city))
             throw new InvalidAddressDataException(nameof(city), "La ciudad no puede estar vacia");

@@ -79,10 +79,10 @@ public class UpdateUserUseCase : IUpdateUserUseCase
         else
         {
             // Actualizar dirección existente
-            user.Address.UpdateCalle(addressRequest.Street);
-            user.Address.UpdateNumero(addressRequest.Number);
-            user.Address.UpdateProvincia(addressRequest.Province);
-            user.Address.UpdateCiudad(addressRequest.City);
+            user.Address.UpdateCity(addressRequest.Street);
+            user.Address.UpdateNumber(addressRequest.Number);
+            user.Address.UpdateProvince(addressRequest.Province);
+            user.Address.UpdateCity(addressRequest.City);
         }
     }
 }

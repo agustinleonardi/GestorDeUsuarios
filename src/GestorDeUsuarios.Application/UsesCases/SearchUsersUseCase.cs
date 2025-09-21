@@ -11,7 +11,7 @@ public class SearchUsersUseCase : ISearchUsersUseCase
 {
     private readonly IUserRepository _userRepository;
     private readonly IMapper _mapper;
-
+    
     public SearchUsersUseCase(IUserRepository userRepository, IMapper mapper)
     {
         _userRepository = userRepository;
