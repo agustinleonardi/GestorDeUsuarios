@@ -26,8 +26,8 @@ public class CreateUserRequestValidator : AbstractValidator<CreateUserRequest>
 
             RuleFor(x => x.Address!.Number)
                 .NotEmpty().WithMessage("El número es requerido cuando se proporciona domicilio")
-                .MaximumLength(20).WithMessage("El número no puede tener más de 20 caracteres")
-                .Matches(@"^[0-9a-zA-Z\s\-\/]+$").WithMessage("El número tiene un formato inválido (ej: 123, 123A, 123-125)");
+                .MaximumLength(10).WithMessage("El número no puede tener más de 10 caracteres")
+                .Matches(@"^[0-9]+([a-zA-Z]|[\-\/][0-9]+)?$").WithMessage("El número debe ser un formato válido (ej: 123, 123A, 123-125, 123/45)");
 
             RuleFor(x => x.Address!.Province)
                 .NotEmpty().WithMessage("La provincia es requerida cuando se proporciona domicilio")

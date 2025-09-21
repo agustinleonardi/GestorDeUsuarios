@@ -20,20 +20,20 @@ public class UpdateUserRequestValidator : AbstractValidator<UpdateUserRequest>
         // Validación condicional del domicilio - solo si se proporciona
         When(x => x.Address != null, () =>
         {
-            RuleFor(x => x.Address!.Calle)
+            RuleFor(x => x.Address!.Street)
                 .NotEmpty().WithMessage("La calle es requerida cuando se proporciona domicilio")
                 .MaximumLength(150).WithMessage("La calle no puede tener más de 150 caracteres");
 
-            RuleFor(x => x.Address!.Numero)
+            RuleFor(x => x.Address!.Number)
                 .NotEmpty().WithMessage("El número es requerido cuando se proporciona domicilio")
-                .MaximumLength(20).WithMessage("El número no puede tener más de 20 caracteres")
-                .Matches(@"^[0-9a-zA-Z\s\-\/]+$").WithMessage("El número tiene un formato inválido (ej: 123, 123A, 123-125)");
+                .MaximumLength(10).WithMessage("El número no puede tener más de 10 caracteres")
+                .Matches(@"^[0-9]+([a-zA-Z]|[\-\/][0-9]+)?$").WithMessage("El número debe ser un formato válido (ej: 123, 123A, 123-125, 123/45)");
 
-            RuleFor(x => x.Address!.Provincia)
+            RuleFor(x => x.Address!.Province)
                 .NotEmpty().WithMessage("La provincia es requerida cuando se proporciona domicilio")
                 .MaximumLength(100).WithMessage("La provincia no puede tener más de 100 caracteres");
 
-            RuleFor(x => x.Address!.Ciudad)
+            RuleFor(x => x.Address!.City)
                 .NotEmpty().WithMessage("La ciudad es requerida cuando se proporciona domicilio")
                 .MaximumLength(100).WithMessage("La ciudad no puede tener más de 100 caracteres");
         });

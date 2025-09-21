@@ -5,7 +5,7 @@ using GestorDeUsuarios.Infrastructure.Data;
 using GestorDeUsuarios.Infrastructure.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace GestorDeUsers.Infrastructure.Repositories;
+namespace GestorDeUsuarios.Infrastructure.Repositories;
 
 public class UserRepository : IUserRepository
 {
