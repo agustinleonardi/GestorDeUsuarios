@@ -66,10 +66,10 @@ public class UpdateUserUseCase : IUpdateUserUseCase
             // Crear nueva dirección
             var newAddress = new Address(
                 user.Id,
-                addressRequest.Calle,
-                addressRequest.Numero,
-                addressRequest.Provincia,
-                addressRequest.Ciudad,
+                addressRequest.Street,
+                addressRequest.Number,
+                addressRequest.Province,
+                addressRequest.City,
                 DateTime.UtcNow
             );
 
@@ -79,10 +79,10 @@ public class UpdateUserUseCase : IUpdateUserUseCase
         else
         {
             // Actualizar dirección existente
-            user.Address.UpdateCalle(addressRequest.Calle);
-            user.Address.UpdateNumero(addressRequest.Numero);
-            user.Address.UpdateProvincia(addressRequest.Provincia);
-            user.Address.UpdateCiudad(addressRequest.Ciudad);
+            user.Address.UpdateCalle(addressRequest.Street);
+            user.Address.UpdateNumero(addressRequest.Number);
+            user.Address.UpdateProvincia(addressRequest.Province);
+            user.Address.UpdateCiudad(addressRequest.City);
         }
     }
 }

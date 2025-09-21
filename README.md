@@ -6,13 +6,9 @@ Sistema de gestión de usuarios desarrollado en .NET 8.0 con Entity Framework Co
 
 - [.NET 8.0 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
 - [MySQL Server](https://dev.mysql.com/downloads/mysql/) (versión 8.0 o superior)
-- [Git](## 🚀 Deploy y Producción
+- Git
 
 ### Variables de Entorno Requeridas
-
-````bash
-# Base de datos
-DB_CONNECTION_STRING=Server=prod-server;Database=gestor_usuarios;User=prod_user;Password=secure_password;
 
 ## 🚀 Configuración e Instalación
 
@@ -276,50 +272,6 @@ dotnet ef migrations add NombreMigracion --project src/GestorDeUsuarios.Infrastr
 
 # Aplicar migraciones
 dotnet ef database update --project src/GestorDeUsuarios.Infrastructure
-
-# Generar script SQL de migraciones
-dotnet ef migrations script --project src/GestorDeUsuarios.Infrastructure
-```
-
-## �️ Solución de Problemas Comunes
-
-### Error: "No se encontró la variable DB_CONNECTION_STRING"
-
-- ✅ Verifica que el archivo `.env` esté en la raíz del proyecto
-- ✅ Asegúrate de que la variable esté escrita correctamente (sin espacios)
-- ✅ Reinicia la aplicación después de crear el archivo `.env`
-
-### Error de conexión a MySQL
-
-- ✅ Verifica que MySQL esté ejecutándose: `sudo service mysql start` (Linux) o verificar en Servicios (Windows)
-- ✅ Confirma las credenciales en el archivo `.env`
-- ✅ Asegúrate de que el puerto 3306 esté disponible
-
-### Error de migraciones
-
-- ✅ Instala EF Core tools: `dotnet tool install --global dotnet-ef`
-- ✅ Ejecuta desde la carpeta correcta: `cd src/GestorDeUsuarios.API`
-- ✅ Verifica que la BD exista antes de aplicar migraciones
-
-## �🚀 Deploy y Producción
-
-### Variables de Entorno Requeridas
-
-```bash
-# Base de datos
-DB_CONNECTION_STRING=Server=prod-server;Database=gestor_usuarios;User=prod_user;Password=secure_password;
-
-```
-
-### Docker (Opcional)
-
-```dockerfile
-# Ejemplo de Dockerfile
-FROM mcr.microsoft.com/dotnet/aspnet:8.0
-COPY . /app
-WORKDIR /app
-EXPOSE 80
-ENTRYPOINT ["dotnet", "GestorDeUsuarios.API.dll"]
 ```
 
 ## 👨‍💻 Autor

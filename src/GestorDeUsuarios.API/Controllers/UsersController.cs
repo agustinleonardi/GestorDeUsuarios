@@ -7,16 +7,16 @@ namespace GestorDeUsuarios.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class UsuariosController : ControllerBase
+    public class UsersController : ControllerBase
     {
-        private readonly ICreateUserUseCase _crearUsuarioUseCase;
+        private readonly ICreateUserUseCase _createUserUseCase;
         private readonly IGetUserByIdUseCase _getUserByIdUseCase;
         private readonly IUpdateUserUseCase _updateUserUseCase;
         private readonly IDeleteUserUseCase _deleteUserUseCase;
         private readonly ISearchUsersUseCase _searchUsersUseCase;
-        public UsuariosController(ICreateUserUseCase crearUsuarioUseCase, IGetUserByIdUseCase getUserByIdUseCase, IUpdateUserUseCase updateUserUseCase, IDeleteUserUseCase deleteUserUseCase, ISearchUsersUseCase searchUsersUseCase)
+        public UsersController(ICreateUserUseCase createUserUseCase, IGetUserByIdUseCase getUserByIdUseCase, IUpdateUserUseCase updateUserUseCase, IDeleteUserUseCase deleteUserUseCase, ISearchUsersUseCase searchUsersUseCase)
         {
-            _crearUsuarioUseCase = crearUsuarioUseCase;
+            _createUserUseCase = createUserUseCase;
             _getUserByIdUseCase = getUserByIdUseCase;
             _updateUserUseCase = updateUserUseCase;
             _deleteUserUseCase = deleteUserUseCase;
@@ -30,12 +30,8 @@ namespace GestorDeUsuarios.API.Controllers
             if (createUsuarioRequest == null)
                 return BadRequest("Se requiere el cuerpo de la solicitud");
 
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            var resultado = await _crearUsuarioUseCase.ExecuteAsync(createUsuarioRequest);
-            return Ok(resultado);
+            var resultado = await _createUserUseCase.ExecuteAsync(createUsuarioRequest);
+            return StatusCode(201, resultado);
         }
 
         [HttpGet("{id}")]
@@ -59,7 +55,7 @@ namespace GestorDeUsuarios.API.Controllers
             return Ok(usuarioActualizado);
         }
 
-        [HttpGet] // ← AGREGAR ESTE ENDPOINT
+        [HttpGet] 
         public async Task<ActionResult<IEnumerable<UserResponse>>> SearchUsers(
             [FromQuery] string? name = null,
             [FromQuery] string? province = null,
