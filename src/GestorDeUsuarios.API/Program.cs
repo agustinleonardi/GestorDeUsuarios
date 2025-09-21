@@ -1,6 +1,6 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
-using GestorDeUsers.Infrastructure.Repositories;
+using GestorDeUsuarios.Infrastructure.Repositories;
 using GestorDeUsuarios.Application.Abstractions.UsesCases;
 using GestorDeUsuarios.Application.Mappings;
 using GestorDeUsuarios.Application.UsesCases;
@@ -8,17 +8,22 @@ using GestorDeUsuarios.Application.Validators;
 using GestorDeUsuarios.Domain.Abstractions.Repositories;
 using GestorDeUsuarios.Infrastructure.Data;
 using GestorDeUsuarios.Infrastructure.Mappings;
-using GestorDeUsuarios.Infrastructure.Repositories;
 using GestorDeUsuarios.API.Middleware;
 using Microsoft.EntityFrameworkCore;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
-DotNetEnv.Env.Load("../../.env");
+// Solo cargar .env si no estamos en ambiente de Testing
+if (builder.Environment.EnvironmentName != "Testing")
+{
+    DotNetEnv.Env.Load("../../.env");
+}
+
 var connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING");
 
-if (string.IsNullOrWhiteSpace(connectionString))
+// Solo requerir connection string si no estamos en Testing (los tests usan SQLite in-memory)
+if (string.IsNullOrWhiteSpace(connectionString) && builder.Environment.EnvironmentName != "Testing")
     throw new InvalidOperationException("No se encontró la variable DB_CONNECTION_STRING.");
 
 // Configurar Controllers
@@ -27,8 +32,12 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+// Solo configurar MySQL si no estamos en Testing (los tests reemplazarán esta configuración)
+if (builder.Environment.EnvironmentName != "Testing")
+{
+    builder.Services.AddDbContext<AppDbContext>(options =>
+        options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+}
 
 // Repositorios
 builder.Services.AddScoped<IUserRepository, UserRepository>();
