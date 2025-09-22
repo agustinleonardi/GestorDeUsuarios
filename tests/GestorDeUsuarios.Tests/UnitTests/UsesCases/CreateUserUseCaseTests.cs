@@ -6,6 +6,10 @@ using GestorDeUsuarios.Domain.Exceptions;
 using GestorDeUsuarios.Domain.Models;
 using GestorDeUsuarios.Application.Models.Responses;
 using GestorDeUsuarios.Tests.Helpers;
+using Moq;
+using FluentAssertions;
+using Xunit;
+
 
 namespace GestorDeUsuarios.Tests.UnitTests.UsesCases;
 

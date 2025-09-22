@@ -244,8 +244,6 @@ public class CreateUserRequestValidatorTests
     [InlineData("1234")]
     [InlineData("123")]
     [InlineData("1235")]
-    [InlineData("1234")]
-    [InlineData("123")]
     public void Validate_WithValidAddressNumber_ShouldNotHaveError(string validNumber)
     {
         // Arrange: Crear request con número de dirección válido

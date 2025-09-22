@@ -206,8 +206,6 @@ public class UpdateUserRequestValidatorTests
     [InlineData("5678")]
     [InlineData("567")]
     [InlineData("5679")]
-    [InlineData("5678")]
-    [InlineData("567")]
     public void Validate_WithValidAddressNumero_ShouldNotHaveError(string validNumero)
     {
         // Arrange: Crear request con número de dirección válido
