@@ -9,6 +9,7 @@ public class DomainToEntityProfile : Profile
     public DomainToEntityProfile()
     {
         CreateMap<User, UserEntity>();
+        //Como user entity siempre tiene direccion, nula o no, se mapea diferente
         CreateMap<UserEntity, User>()
             .ConstructUsing(entity =>
                 // Operador ternario: condición ? valorSiTrue : valorSiFalse

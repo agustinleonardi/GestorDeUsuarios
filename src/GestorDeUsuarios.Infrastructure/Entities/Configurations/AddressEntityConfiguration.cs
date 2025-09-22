@@ -21,5 +21,9 @@ public class AddressEntityConfiguration : IEntityTypeConfiguration<AddressEntity
         builder.HasOne(a => a.User)
             .WithOne(u => u.Address)
             .HasForeignKey<AddressEntity>(a => a.UserId);
+
+        builder.HasIndex(a => a.UserId).HasDatabaseName("IX_Addresses_UserId");
+        builder.HasIndex(a => a.Province).HasDatabaseName("IX_Addresses_Province");
+        builder.HasIndex(a => a.City).HasDatabaseName("IX_Addresses_City");
     }
 }

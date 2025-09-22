@@ -23,7 +23,6 @@ public class UserEntityConfiguration : IEntityTypeConfiguration<UserEntity>
         // Crear índice único en Email para evitar duplicados y mejorar performance en consultas
         builder.HasIndex(u => u.Email).IsUnique().HasDatabaseName("IX_Users_Email");
 
-        //
         builder.HasIndex(u => u.Name).HasDatabaseName("IX_Users_Name");
 
     }

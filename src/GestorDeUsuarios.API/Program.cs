@@ -50,6 +50,8 @@ builder.Services.AddScoped<ISearchUsersUseCase, SearchUsersUseCase>();
 builder.Services.AddScoped<IUpdateUserUseCase, UpdateUserUseCase>();
 builder.Services.AddScoped<IDeleteUserUseCase, DeleteUserUseCase>();
 
+
+//mappers
 builder.Services.AddAutoMapper(
     typeof(DomainToEntityProfile).Assembly,     // Infrastructure mappings
     typeof(DomainToResponseProfile).Assembly    // Application mappings
