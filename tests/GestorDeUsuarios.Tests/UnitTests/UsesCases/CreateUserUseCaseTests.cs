@@ -1,13 +1,14 @@
 using AutoMapper;
-using GestorDeUsuarios.Application.UsesCases;
+using FluentAssertions;
 using GestorDeUsuarios.Application.Exceptions;
+using GestorDeUsuarios.Application.Models.Responses;
+using GestorDeUsuarios.Application.UsesCases;
 using GestorDeUsuarios.Domain.Abstractions.Repositories;
+using GestorDeUsuarios.Domain.Abstractions.Services;
 using GestorDeUsuarios.Domain.Exceptions;
 using GestorDeUsuarios.Domain.Models;
-using GestorDeUsuarios.Application.Models.Responses;
 using GestorDeUsuarios.Tests.Helpers;
 using Moq;
-using FluentAssertions;
 using Xunit;
 
 
@@ -17,6 +18,7 @@ public class CreateUserUseCaseTests
 {
     private readonly Mock<IUserRepository> _userRepositoryMock;
     private readonly Mock<IAddressRepository> _addressRepositoryMock;
+    private readonly Mock<IAuthService> _authServiceMock;
     private readonly Mock<IMapper> _mapperMock;
     private readonly CreateUserUseCase _useCase;
 
@@ -25,8 +27,9 @@ public class CreateUserUseCaseTests
         // Inicializar mocks y clase a testear
         _userRepositoryMock = new Mock<IUserRepository>();
         _addressRepositoryMock = new Mock<IAddressRepository>();
+        _authServiceMock = new Mock<IAuthService>();
         _mapperMock = new Mock<IMapper>();
-        _useCase = new CreateUserUseCase(_userRepositoryMock.Object, _mapperMock.Object, _addressRepositoryMock.Object);
+        _useCase = new CreateUserUseCase(_userRepositoryMock.Object, _mapperMock.Object, _addressRepositoryMock.Object, _authServiceMock.Object, new Mock<IEmailService>().Object);
     }
 
     // Test: Crear usuario con datos válidos debe retornar UserResponse
@@ -38,14 +41,22 @@ public class CreateUserUseCaseTests
         var expectedUser = TestDataBuilder.CreateValidUser();
         var expectedResponse = TestDataBuilder.CreateValidUserResponse(request.Name, request.Email);
 
+        //mockeo el auth service para simular el hash de contraseña
+        _authServiceMock
+            .Setup(x => x.HashPasswordAsync(request.Password))
+            .ReturnsAsync("hashedPassword123");
+
+        //mockeo el repo para simular que el usuario no existe
         _userRepositoryMock
             .Setup(x => x.GetByEmailAsync(request.Email))
             .ReturnsAsync((User?)null);
 
+        //mockeo el repo para simular que se guarda el usuario
         _userRepositoryMock
             .Setup(x => x.AddAsync(It.IsAny<User>()))
             .ReturnsAsync(expectedUser);
 
+        //mockeo el mapper para simular la conversion a respuesta
         _mapperMock
             .Setup(x => x.Map<UserResponse>(expectedUser))
             .Returns(expectedResponse);
@@ -54,9 +65,11 @@ public class CreateUserUseCaseTests
         var result = await _useCase.ExecuteAsync(request);
 
         // Assert: Verificar resultado y llamadas a dependencias
-        result.Should().NotBeNull();
+        result.Should().NotBeNull(); //verifico que el resultado no sea null
+        //datos del usuario correctos
         result.Name.Should().Be(expectedResponse.Name);
         result.Email.Should().Be(expectedResponse.Email);
+
 
         _userRepositoryMock.Verify(x => x.GetByEmailAsync(request.Email), Times.Once);
         _userRepositoryMock.Verify(x => x.AddAsync(It.IsAny<User>()), Times.Once);
@@ -70,6 +83,11 @@ public class CreateUserUseCaseTests
         // Arrange: Simular que ya existe un usuario con el email
         var request = TestDataBuilder.CreateValidUserRequest();
         var existingUser = TestDataBuilder.CreateValidUser();
+
+        //mockeo el auth service para simular el hash de contraseña
+        _authServiceMock
+            .Setup(x => x.HashPasswordAsync(request.Password))
+            .ReturnsAsync("hashedPassword123");
 
         _userRepositoryMock
             .Setup(x => x.GetByEmailAsync(request.Email))
@@ -94,6 +112,11 @@ public class CreateUserUseCaseTests
         // Arrange: Crear petición con nombre inválido
         var request = TestDataBuilder.CreateValidUserRequest(name: invalidName);
 
+        //mockeo el auth service para simular el hash de contraseña
+        _authServiceMock
+            .Setup(x => x.HashPasswordAsync(request.Password))
+            .ReturnsAsync("hashedPassword123");
+
         _userRepositoryMock
             .Setup(x => x.GetByEmailAsync(request.Email))
             .ReturnsAsync((User?)null);
@@ -113,6 +136,11 @@ public class CreateUserUseCaseTests
     {
         // Arrange: Crear petición con email inválido
         var request = TestDataBuilder.CreateValidUserRequest("Juan Pérez", invalidEmail);
+
+        //mockeo el auth service para simular el hash de contraseña
+        _authServiceMock
+            .Setup(x => x.HashPasswordAsync(request.Password))
+            .ReturnsAsync("hashedPassword123");
 
         _userRepositoryMock
             .Setup(x => x.GetByEmailAsync(request.Email))
@@ -141,6 +169,11 @@ public class CreateUserUseCaseTests
         // Arrange: Configurar repositorio para que falle
         var request = TestDataBuilder.CreateValidUserRequest();
         var expectedException = new InvalidOperationException("Database error");
+
+        //mockeo el auth service para simular el hash de contraseña
+        _authServiceMock
+            .Setup(x => x.HashPasswordAsync(request.Password))
+            .ReturnsAsync("hashedPassword123");
 
         _userRepositoryMock
             .Setup(x => x.GetByEmailAsync(request.Email))
