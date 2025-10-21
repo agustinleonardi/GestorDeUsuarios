@@ -1,4 +1,4 @@
-# GestorDeUsuarios-Evoltis
+# GestorDeUsuarios
 
 Sistema de gestión de usuarios desarrollado en .NET 8.0 con Entity Framework Core y MySQL.
 
